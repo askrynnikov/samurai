@@ -4,4 +4,4 @@ Knock, knock.
 Who's there?
 Git.
 Git who?
-Git over to the next lession? this merge is DONE!
+Git over to the next lession, this merge is DONE!
