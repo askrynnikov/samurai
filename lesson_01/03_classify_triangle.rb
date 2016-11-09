@@ -1,16 +1,8 @@
 puts 'Проверяем является ли треугольник прямоугольным'
 
-puts 'Одной строкой введите длины трех сторон треугольника:'
+puts "Одной строкой ведите длины трех сторон треугольника, например: '5 6 8.3'"
 
-side_1, side_2, side_3 = *gets.chomp.split(/[^\p{Digit}\.]+/).map(&:to_f)
-
-if side_1 > side_2 && side_1 > side_3
-  c = side_1; a = side_2; b = side_3
-elsif side_2 > side_1 && side_2 > side_3
-  c = side_2; a = side_1; b = side_3
-else
-  c = side_3; a = side_1; b = side_2
-end
+a, b, c = *gets.chomp.split(/[^\p{Digit}\.]+/).map(&:to_f).sort
 
 result =
   if c**2 == a**2 + b**2
