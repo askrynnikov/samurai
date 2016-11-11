@@ -1,16 +1,8 @@
-fibonacci_numbers = []
 LIMIT = 100
 
+fibonacci_numbers = [0, 1]
 loop do
-  fibonacci =
-    case fibonacci_numbers.size
-    when 0
-      0
-    when 1
-      1
-    else
-      fibonacci_numbers[-1]+fibonacci_numbers[-2]
-    end
+  fibonacci = fibonacci_numbers[-1] + fibonacci_numbers[-2]
   break if fibonacci > LIMIT
   fibonacci_numbers << fibonacci
 end

@@ -9,7 +9,7 @@
 # кол-во купленного товара. Также вывести итоговую сумму за каждый товар.
 # Вычислить и вывести на экран итоговую сумму всех покупок в "корзине".
 
-shopping_list = {}
+list = {}
 loop do
   puts 'Введите название товара или "стоп" чтобы закончить'
   name = gets.chomp
@@ -21,17 +21,24 @@ loop do
   puts 'Введите колличетво купленного товара'
   quantity = gets.to_f
 
-  shopping_list[name] = {price: price, quantity: quantity}
+  list[name] =
+    if list.key?(name)
+      { price: (list[name][:quantity] * list[name][:price] +
+        quantity * price) / (list[name][:quantity] + quantity),
+        quantity: list[name][:quantity] + quantity }
+    else
+      { price: price, quantity: quantity }
+    end
 end
 
-shopping_list.each do |name, buy|
-  shopping_list[name][:sum] = (buy[:price] * buy[:quantity]).round(2)
+list.each do |name, buy|
+  list[name][:sum] = (buy[:price] * buy[:quantity]).round(2)
 end
-total_sum = shopping_list.reduce(0) { |sum, (_name, buy)| sum += buy[:sum] }
+total_sum = list.reduce(0) { |sum, (_name, buy)| sum += buy[:sum] }
 
 
-shopping_list.each do |name, buy|
-  puts "#{name} цена: #{buy[:price]} "\
+list.each do |name, buy|
+  puts "#{name} цена: #{buy[:price].round(2)} "\
                "колличество: #{buy[:quantity]} "\
                "стоимость: #{sprintf("%.2f", buy[:sum])}"
 end

@@ -1,11 +1,10 @@
 require 'date'
 
 year = 2016
-months_days = (1..12).reduce({}) do |val, i|
-  val[Date.new(year, i).strftime('%B')] = Date.new(year, i, -1).day
+months_30_days = (1..12).reduce([]) do |val, i|
+  month_last_day = Date.new(year, i, -1)
+  val << month_last_day.strftime('%B') if month_last_day.day == 30
   val
 end
 
-puts months_days
-       .select { |_month, days| days == 30 }
-       .map { |month, _days| month }
+puts months_30_days

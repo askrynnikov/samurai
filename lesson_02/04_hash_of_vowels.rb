@@ -2,9 +2,9 @@
 # порядковый номер буквы в алфавите (a - 1).
 
 vowels = %w(a e i o u y)
-vowels_with_numbers =
-('a'..'z').each.with_index(1).with_object({}) do |(letter, index), hash|
-  hash[letter] = index if vowels.include?(letter)
+alphabet = [*('a'..'z')]
+vowels_with_numbers = vowels.each_with_object({}) do |letter, mem|
+  mem[letter] = alphabet.index(letter) + 1
 end
 
 puts vowels_with_numbers
