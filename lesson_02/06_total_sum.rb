@@ -9,37 +9,40 @@
 # кол-во купленного товара. Также вывести итоговую сумму за каждый товар.
 # Вычислить и вывести на экран итоговую сумму всех покупок в "корзине".
 
+require 'bigdecimal'
+
 list = {}
 loop do
   puts 'Введите название товара или "стоп" чтобы закончить'
-  name = gets.chomp
-  break if name == 'стоп'
+  name = gets.chomp.to_sym
+
+  break if name == :стоп
 
   puts 'Введите цену за единицу товара'
-  price = gets.to_f
+  price = BigDecimal.new(gets.chomp, 2)
 
   puts 'Введите колличетво купленного товара'
   quantity = gets.to_f
 
-  list[name] =
-    if list.key?(name)
-      { price: (list[name][:quantity] * list[name][:price] +
-        quantity * price) / (list[name][:quantity] + quantity),
-        quantity: list[name][:quantity] + quantity }
-    else
-      { price: price, quantity: quantity }
-    end
+  list[name] ||= []
+  list[name] << { price: price, quantity: quantity }
 end
 
 list.each do |name, buy|
-  list[name][:sum] = (buy[:price] * buy[:quantity]).round(2)
+  buy.each { |h| h[:sum] = h[:price] * h[:quantity] }
 end
-total_sum = list.reduce(0) { |sum, (_name, buy)| sum += buy[:sum] }
+total_sum = list.reduce(0) do |sum, (_name, buy)|
+  sum += buy.reduce(0) { |sum, h| sum += h[:sum] }
+end
 
+
+puts list
 
 list.each do |name, buy|
-  puts "#{name} цена: #{buy[:price].round(2)} "\
-               "колличество: #{buy[:quantity]} "\
-               "стоимость: #{sprintf("%.2f", buy[:sum])}"
+  buy.each do |h|
+    puts "#{name} цена: #{sprintf("%.2f", h[:price])} "\
+                 "колличество: #{h[:quantity]} "\
+                 "стоимость: #{sprintf("%.2f", h[:sum])}"
+  end
 end
 puts "Итоговая сумма #{sprintf("%.2f", total_sum)}"
