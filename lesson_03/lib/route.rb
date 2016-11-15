@@ -1,10 +1,17 @@
-require_relative('station')
+require_relative 'station'
 
 class Route
+  @@routrs = []
+
   attr_reader :stations
+
+  def self.routrs
+    @@routrs
+  end
 
   def initialize(start_station, end_station)
     @stations = [start_station, end_station]
+    @@routrs << self
   end
 
   def add_intermediate_station(station, next_station = nil)
@@ -21,7 +28,7 @@ class Route
   end
 
   def puts_stations
-    stations.each { |station| puts station }
+    @stations.each { |station| puts station }
   end
 
   def start_station

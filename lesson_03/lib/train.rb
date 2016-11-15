@@ -1,11 +1,17 @@
-require_relative('route')
-require_relative('station')
+require_relative 'route'
+require_relative 'station'
 
 class Train
+  TYPES = [:cargo, :passenger]
+
+  @@trains = []
+
   attr_reader :number, :type, :amount_carriages, :speed,
               :previous_station, :at_station, :next_station
 
-  TYPES = [:cargo, :passenger]
+  def self.trains
+    @@trains
+  end
 
   def initialize(number, type, amount_carriages)
     @number = number
@@ -17,6 +23,7 @@ class Train
     @previous_station = nil
     @at_station = nil
     @next_station = nil
+    @@trains << self
   end
 
   def accelerates(up_speed = 10)
@@ -24,7 +31,7 @@ class Train
   end
 
   def breaks(down_speed = nil)
-    if down_speed == nil || down_speed>=speed
+    if down_speed.nil? || down_speed>=speed
       self.speed = 0
     else
       self.speed -= down_speed

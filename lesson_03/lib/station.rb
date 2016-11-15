@@ -1,11 +1,18 @@
-require_relative('train')
+require_relative 'train'
 
 class Station
+  @@stations = []
+
   attr_reader :name, :trains
+
+  def self.stations
+    @@stations
+  end
 
   def initialize(name)
     @name = name
     @trains = []
+    @@stations << self
   end
 
   def take_train(train)
@@ -17,13 +24,13 @@ class Station
     if self.has_train?(train)
       @trains.delete(train)
       # puts caller_locations[0]
-      train.go_to_next_station(self) unless initiator.class == Train
+      train.go_to_next_station(self) unless initiator === Train
     end
     self
   end
 
   def numbers_trains
-    @trains.map { |train| train.number }
+    @trains.map(&:number)
   end
 
   def print_numbers_trains

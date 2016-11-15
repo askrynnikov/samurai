@@ -1,10 +1,9 @@
-require_relative('lib/station')
-require_relative('lib/route')
-require_relative('lib/train')
-
+require_relative 'lib/station'
+require_relative 'lib/route'
+require_relative 'lib/train'
 
 mosсow = Station.new('Москва')
-piter =  Station.new('Санкт-Петербург')
+piter = Station.new('Санкт-Петербург')
 route_mosсow_piter = Route.new(mosсow, piter)
 bologoe = Station.new('Бологое')
 chudovo = Station.new('Чудово')
