@@ -3,6 +3,6 @@ Ruby: true
 Python: false
 PHP: false
 
-exclude_paths:
-- test/**/*
-- vendor/**/*
+#exclude_paths:
+#- test/**/*
+#- vendor/**/*
