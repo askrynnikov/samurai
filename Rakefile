@@ -1,6 +1,6 @@
-require './railway_management.rb'
+# require './lesson_03/railway_management.rb'
 task :default => [:test]
 
 task :test do
-  ruby "railway_management.rb"
+  ruby "./lesson_03/railway_management.rb"
 end
