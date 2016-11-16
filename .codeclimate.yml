@@ -21,10 +21,10 @@ engines:
       - javascript
 ratings:
   paths:
-  - app/**
-  - lib/**
+#  - app/**
+#  - lib/**
   - "**.rb"
   - "**.go"
-exclude_paths:
-- spec/**/*
-- "**/vendor/**/*"
+#exclude_paths:
+#- spec/**/*
+#- "**/vendor/**/*"
