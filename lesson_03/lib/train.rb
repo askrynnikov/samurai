@@ -7,7 +7,7 @@ class Train
   @@trains = []
 
   attr_reader :number, :type, :amount_carriages, :speed,
-              :previous_station, :at_station, :next_station
+              :previous_station, :at_station, :next_station, :waypoint
 
   def self.trains
     @@trains
@@ -19,7 +19,7 @@ class Train
     @amount_carriages = amount_carriages
     @speed = 0
     @route = nil
-    @index_station = nil
+    @waypoint = nil
     @previous_station = nil
     @at_station = nil
     @next_station = nil
@@ -52,38 +52,21 @@ class Train
 
   def load_route(route)
     @route = route
-    @index_station = 0
-    @previous_station = @route.start_station
-    @at_station = @route.start_station
+    @waypoint = route.first_waypoint
+    @previous_station = route.start_station
+    @at_station = route.start_station
     @at_station.take_train(self)
-    @next_station = @route.stations[1]
+    @next_station = route.next_station(waypoint)
     self
   end
 
-  def go_to_next_station(initiator = self)
-    # OPTIMIZE improve the code
-    @previous_station = @route.stations[index_station]
-    @previous_station.send_train(self, self) unless initiator.class == Station
-    self.index_station += 1
-    if index_station >= @route.stations.size
-      self.index_station = 0
-      if @route.first != @route.last
-        @route.reverse!
-      end
-    end
-
-    @at_station = @route.stations[index_station]
+  def go_to_next_station
+    @at_station.departed_train(self)
+    @previous_station = @at_station
+    @at_station = @next_station
+    @waypoint = @route.next_waypoint(@waypoint)
+    @next_station = @route.next_station(@waypoint)
     @at_station.take_train(self)
-
-    if index_station < @route.stations.size
-      @next_station = @route.stations[index_station + 1]
-    else
-      if @route.first != @route.last
-        @next_station = @route[-2]
-      else
-        @next_station = @route[0]
-      end
-    end
     self
   end
 
@@ -95,13 +78,5 @@ class Train
 
   def amount_carriages=(amount_carriages)
     @amount_carriages = amount_carriages
-  end
-
-  def index_station=(index_station)
-    @index_station = index_station
-  end
-
-  def index_station
-    @index_station
   end
 end
