@@ -43,6 +43,10 @@ class Route
     @stations.include?(station)
   end
 
+  def circular?
+    stations.first == stations.last
+  end
+
   def to_s
     @stations
   end

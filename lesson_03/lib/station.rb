@@ -23,7 +23,6 @@ class Station
   def send_train(train, initiator = self)
     if self.has_train?(train)
       @trains.delete(train)
-      # puts caller_locations[0]
       train.go_to_next_station(self) unless initiator === Train
     end
     self
