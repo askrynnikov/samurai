@@ -135,7 +135,7 @@ class CargoTrain < Train
   end
 
   def attach_carriages(*units)
-    if units.first.class.is_a?(Integer)
+    if units.first.is_a?(Integer)
       units.first.times { attach_carriage(CargoCarriage.new) }
     else
       units.each { |unit| attach_carriage(unit) }

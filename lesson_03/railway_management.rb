@@ -34,6 +34,8 @@ end
 #
 # print route_mosсow_piter[0].name
 
-train_210 = PassengerTrain.new('210', 15)
+train_210 = PassengerTrain.new('210', 2)
+cargo_211 = CargoTrain.new('211', 5)
 p train_210
+p cargo_211
 
