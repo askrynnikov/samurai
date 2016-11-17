@@ -15,6 +15,10 @@ class Route
     @circular = start_station == end_station
   end
 
+  def [](index)
+    @stations[index]
+  end
+
   def next_waypoint(waypoint)
     (waypoint + 1) if  waypoint < last_waypoint
   end
