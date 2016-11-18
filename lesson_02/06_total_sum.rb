@@ -28,11 +28,11 @@ loop do
   list[name] << { price: price, quantity: quantity }
 end
 
-list.each do |name, buy|
+list.each do |_name, buy|
   buy.each { |h| h[:sum] = h[:price] * h[:quantity] }
 end
 total_sum = list.reduce(0) do |sum, (_name, buy)|
-  sum += buy.reduce(0) { |sum, h| sum += h[:sum] }
+  sum + buy.reduce(0) { |sum2, h| sum2 + h[:sum] }
 end
 
 
