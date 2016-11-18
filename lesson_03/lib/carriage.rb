@@ -4,4 +4,6 @@ class Carriage
   def initialize(type = nil)
     @type = type
   end
+
+  protected
 end

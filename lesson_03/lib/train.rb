@@ -1,8 +1,8 @@
 require_relative 'route'
 require_relative 'station'
 require_relative 'carriage'
-require_relative 'passenger_carriage'
-require_relative 'cargo_carriage'
+require_relative 'carriage/passenger_carriage'
+require_relative 'carriage/cargo_carriage'
 
 class Train
   USIAL_AMOUNT_CARRIADES = 12
@@ -12,12 +12,9 @@ class Train
   attr_reader :number, :type, :amount_carriages, :speed, :carriages,
               :previous_station, :at_station, :next_station, :waypoint
 
-  def self.trains
-    @@trains
-  end
-
   def initialize(number, type, amount_carriages = USIAL_AMOUNT_CARRIADES)
-    @number, @type = number, type
+    @number = number
+    @type = type
     @speed = 0
     @carriages = []
     @route = nil
@@ -25,6 +22,10 @@ class Train
     @previous_station, @at_station, @next_station = nil
     @@trains << self
     attach_carriages(amount_carriages)
+  end
+
+  def self.trains
+    @@trains
   end
 
   def attach_carriages(*units)

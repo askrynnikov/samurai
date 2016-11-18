@@ -15,7 +15,7 @@ class PassengerTrain < Train
   end
 
   def attach_carriage(carriage)
-    @carriages << carriage if speed == 0 && carriage.instance_of?(PassengerCarriage)
+    self.carriages << carriage if speed == 0 && carriage.instance_of?(PassengerCarriage)
     self
   end
 end

@@ -1,8 +1,7 @@
 require_relative 'lib/station'
 require_relative 'lib/route'
-require_relative 'lib/train'
-require_relative 'lib/passenger_train'
-require_relative 'lib/cargo_train'
+require_relative 'lib/train/passenger_train'
+require_relative 'lib/train/cargo_train'
 
 def print_numbers_trains(station)
   puts "На станции #{name} находятся поезда:"
