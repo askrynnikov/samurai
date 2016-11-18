@@ -57,12 +57,8 @@ class Train
 
   def breaks(down_speed = 0)
     return self.speed = 0 if down_speed == 0
-    down_speed = -down_speed if down_speed < 0
-    if down_speed>=speed
-      self.speed = 0
-    else
-      self.speed -= down_speed
-    end
+    self.speed -= down_speed
+    self.speed = [speed, 0].max
   end
 
   def stop

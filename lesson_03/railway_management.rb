@@ -39,4 +39,8 @@ train_210 = PassengerTrain.new('210', 2)
 cargo_211 = CargoTrain.new('211', 5)
 p train_210
 p cargo_211
+train_210.accelerates(50)
+train_210.breaks(20)
+train_210.breaks
+
 
