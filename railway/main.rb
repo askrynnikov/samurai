@@ -2,6 +2,7 @@ require_relative 'lib/station'
 require_relative 'lib/route'
 require_relative 'lib/train/passenger_train'
 require_relative 'lib/train/cargo_train'
+require_relative 'lib/train'
 
 def print_numbers_trains(station)
   puts "На станции #{name} находятся поезда:"
@@ -42,5 +43,16 @@ p cargo_211
 train_210.accelerates(50)
 train_210.breaks(20)
 train_210.breaks
+
+ train_111 = Train.new('000', :pas)
+ train_111.manufacturer = 'МВЗ'
+p train_111.manufacturer
+ train_111.manufacturer = 'МВЗ+++'
+p train_111.manufacturer
+
+
+p PassengerTrain.instances
+p CargoTrain.instances
+p Train.instances
 
 

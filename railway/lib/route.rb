@@ -1,6 +1,9 @@
+require_relative 'instance_counter'
 require_relative 'station'
 
 class Route
+  include InstanceCounter
+
   @@routrs = []
 
   attr_reader :stations
@@ -13,6 +16,7 @@ class Route
     @stations = [start_station, end_station]
     @@routrs << self
     @circular = start_station == end_station
+    register_instance
   end
 
   def [](index)

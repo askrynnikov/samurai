@@ -1,3 +1,5 @@
+require_relative '../train'
+
 class CargoTrain < Train
   USIAL_AMOUNT_CARRIADES = 50
 
