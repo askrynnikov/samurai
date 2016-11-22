@@ -3,6 +3,7 @@ require_relative 'lib/route'
 require_relative 'lib/train/passenger_train'
 require_relative 'lib/train/cargo_train'
 require_relative 'lib/train'
+require_relative 'lib/cli'
 
 def print_numbers_trains(station)
   puts "На станции #{name} находятся поезда:"
@@ -14,45 +15,4 @@ def print_amount_trains_by_type(station)
   puts station.amount_trains_by_type.to_a
 end
 
-mosсow = Station.new('Москва')
-piter = Station.new('Санкт-Петербург')
-route_mosсow_piter = Route.new(mosсow, piter)
-bologoe = Station.new('Бологое')
-chudovo = Station.new('Чудово')
-tver = Station.new('Тверь')
-route_mosсow_piter.add_intermediate_station(bologoe)
-route_mosсow_piter.add_intermediate_station(chudovo)
-route_mosсow_piter.add_intermediate_station(tver, bologoe)
-
-train_209 = Train.new('209', :passenger, 12)
-train_209.load_route(route_mosсow_piter)
-
-train_209.go_to_next_station
-print tver.numbers_trains
-train_209.go_to_next_station
-print bologoe.numbers_trains
-bologoe.send_train(train_209)
-print chudovo.numbers_trains
-
-print route_mosсow_piter[0].name
-
-train_210 = PassengerTrain.new('210', 2)
-cargo_211 = CargoTrain.new('211', 5)
-p train_210
-p cargo_211
-train_210.accelerates(50)
-train_210.breaks(20)
-train_210.breaks
-
- train_111 = Train.new('000', :pas)
- train_111.manufacturer = 'МВЗ'
-p train_111.manufacturer
- train_111.manufacturer = 'МВЗ+++'
-p train_111.manufacturer
-
-
-p PassengerTrain.instances
-p CargoTrain.instances
-p Train.instances
-
-
+CLI.run

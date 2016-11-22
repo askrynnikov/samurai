@@ -1,8 +1,10 @@
 require_relative 'instance_counter'
 require_relative 'station'
+require_relative 'validation'
 
 class Route
   include InstanceCounter
+  include Validation
 
   @@routrs = []
 
@@ -16,6 +18,7 @@ class Route
     @stations = [start_station, end_station]
     @@routrs << self
     @circular = start_station == end_station
+    validate!
     register_instance
   end
 
@@ -24,7 +27,7 @@ class Route
   end
 
   def next_waypoint(waypoint)
-    (waypoint + 1) if  waypoint < last_waypoint
+    (waypoint + 1) if waypoint < last_waypoint
   end
 
   def next_station(waypoint)
@@ -32,7 +35,7 @@ class Route
   end
 
   def previous_waypoint(waypoint)
-    (waypoint - 1) if  waypoint > last_waypoint
+    (waypoint - 1) if waypoint > last_waypoint
   end
 
   def previous_station(waypoint)
@@ -83,4 +86,14 @@ class Route
   def to_s
     @stations
   end
+
+  private
+
+  def validate!
+    unless stations.all? { |item| item.is_a?(Station) }
+      raise "Route shall contain only stations"
+    end
+    true
+  end
+
 end

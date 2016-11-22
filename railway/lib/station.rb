@@ -1,8 +1,12 @@
 require_relative 'instance_counter'
 require_relative 'train'
+require_relative 'validation'
 
 class Station
   include InstanceCounter
+  include Validation
+
+  STATION_NAME_FORMAT = /[[:alpha:]]+/
 
   @@stations = []
 
@@ -20,6 +24,7 @@ class Station
     @name = name
     @trains = []
     @@stations << self
+    validate!
     register_instance
   end
 
@@ -49,4 +54,12 @@ class Station
   def has_train?(train)
     trains.include?(train)
   end
+
+  private
+
+  def validate!
+    raise 'Station must have a name' if name !~ STATION_NAME_FORMAT
+    true
+  end
+
 end

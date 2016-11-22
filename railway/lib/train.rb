@@ -9,6 +9,7 @@ class Train
   include InstanceCounter
   include Manufacturer
 
+  TRAIN_NUMBER_FORMAT = /\A[[:alnum:]]{3}-*[[:alnum:]]{2}\z/
   USIAL_AMOUNT_CARRIADES = 12
 
   @@trains = []
@@ -28,9 +29,14 @@ class Train
     @route = nil
     @waypoint = nil
     @previous_station, @at_station, @next_station = nil
-    @@trains << self
     attach_carriages(amount_carriages)
+    validate!
+    @@trains << self
     register_instance
+  end
+
+  def to_s
+    number
   end
 
   def self.trains
@@ -106,6 +112,14 @@ class Train
   # а в процессе сцепки-разцепки поезда и вагона
   def amount_carriages=(amount_carriages)
     @amount_carriages = amount_carriages
+  end
+
+  def validate!
+    raise 'Train number has invalid format' if number !~ TRAIN_NUMBER_FORMAT
+    unless carriages.size==0 || carriages.all? { |item| item.is_a?(Carriage) }
+      raise "Train shall contain only carriages"
+    end
+    true
   end
 
 end
