@@ -1,16 +1,24 @@
 require_relative 'route'
 require_relative 'station'
-require_relative 'carriage'
+require_relative 'instance_counter'
+require_relative 'manufacturer'
 require_relative 'carriage/passenger_carriage'
 require_relative 'carriage/cargo_carriage'
 
 class Train
+  include InstanceCounter
+  include Manufacturer
+
   USIAL_AMOUNT_CARRIADES = 12
 
   @@trains = []
 
   attr_reader :number, :type, :amount_carriages, :speed, :carriages,
               :previous_station, :at_station, :next_station, :waypoint
+
+  def self.find(number)
+    @@trains.find { |train| train.number == number }
+  end
 
   def initialize(number, type, amount_carriages = USIAL_AMOUNT_CARRIADES)
     @number = number
@@ -22,6 +30,7 @@ class Train
     @previous_station, @at_station, @next_station = nil
     @@trains << self
     attach_carriages(amount_carriages)
+    register_instance
   end
 
   def self.trains
