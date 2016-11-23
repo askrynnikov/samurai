@@ -22,9 +22,9 @@ engines:
 ratings:
   paths:
 #  - app/**
-#  - lib/**
+  - lib/**
   - "**.rb"
   - "**.go"
 #exclude_paths:
-#- spec/**/*
+- spec/**/*
 #- "**/vendor/**/*"

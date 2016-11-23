@@ -2,5 +2,6 @@
 task :default => [:test]
 
 task :test do
-  ruby "./railway/main.rb"
+  ruby "./spec/train_spec.rb"
+  # ruby "./railway/main.rb"
 end
