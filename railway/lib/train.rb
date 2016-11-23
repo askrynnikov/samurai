@@ -2,13 +2,22 @@ require_relative 'route'
 require_relative 'station'
 require_relative 'instance_counter'
 require_relative 'manufacturer'
+require_relative 'validation'
 require_relative 'carriage/passenger_carriage'
 require_relative 'carriage/cargo_carriage'
 
 class Train
   include InstanceCounter
   include Manufacturer
+  include Validation
 
+  class NumberError < StandardError
+    def initialize(msg='Train number has invalid format')
+      super
+    end
+  end
+
+  NUMBER_FORMAT = /\A[[:alnum:]]{3}-*[[:alnum:]]{2}\z/
   USIAL_AMOUNT_CARRIADES = 12
 
   @@trains = []
@@ -28,9 +37,14 @@ class Train
     @route = nil
     @waypoint = nil
     @previous_station, @at_station, @next_station = nil
-    @@trains << self
     attach_carriages(amount_carriages)
+    validate!
+    @@trains << self
     register_instance
+  end
+
+  def to_s
+    number
   end
 
   def self.trains
@@ -107,5 +121,21 @@ class Train
   def amount_carriages=(amount_carriages)
     @amount_carriages = amount_carriages
   end
+
+  def validate!
+    validate_format
+    validate_items
+  end
+
+  def validate_format
+    raise NumberError if number !~ NUMBER_FORMAT
+  end
+
+  def validate_items
+    unless carriages.size==0 || carriages.all? { |item| item.is_a?(Carriage) }
+      raise 'Train shall contain only carriages'
+    end
+  end
+
 
 end
