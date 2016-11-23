@@ -9,6 +9,12 @@ class Train
   include InstanceCounter
   include Manufacturer
 
+  class NumberError < StandardError
+    def initialize(msg='Train number has invalid format')
+      super
+    end
+  end
+
   TRAIN_NUMBER_FORMAT = /\A[[:alnum:]]{3}-*[[:alnum:]]{2}\z/
   USIAL_AMOUNT_CARRIADES = 12
 
@@ -115,9 +121,9 @@ class Train
   end
 
   def validate!
-    raise 'Train number has invalid format' if number !~ TRAIN_NUMBER_FORMAT
+    raise NumberError if number !~ TRAIN_NUMBER_FORMAT
     unless carriages.size==0 || carriages.all? { |item| item.is_a?(Carriage) }
-      raise "Train shall contain only carriages"
+      raise 'Train shall contain only carriages'
     end
     true
   end

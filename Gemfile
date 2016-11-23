@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 group :test do
   # необходим для travis-ci
   gem 'rake'
+  gem 'rspec'
 end
 
 
