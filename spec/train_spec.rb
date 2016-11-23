@@ -1,5 +1,4 @@
 require_relative 'spec_helper'
-require_relative '../railway/lib/train'
 
 describe Train do
   it 'raises an error if the number does not match the specified format' do

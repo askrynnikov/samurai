@@ -6,7 +6,7 @@ class Station
   include InstanceCounter
   include Validation
 
-  STATION_NAME_FORMAT = /[[:alpha:]]+/
+  NAME_FORMAT = /[[:alpha:]]+/
 
   @@stations = []
 
@@ -58,7 +58,7 @@ class Station
   private
 
   def validate!
-    raise 'Station must have a name' if name !~ STATION_NAME_FORMAT
+    raise 'Station must have a name' if name !~ NAME_FORMAT
     true
   end
 
