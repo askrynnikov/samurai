@@ -15,4 +15,8 @@ def print_amount_trains_by_type(station)
   puts station.amount_trains_by_type.to_a
 end
 
+# train = CargoTrain.new('123-12')
+# t = train.valid?
+# t = train.valid?
+
 CLI.run

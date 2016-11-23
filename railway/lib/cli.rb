@@ -1,6 +1,8 @@
 module CLI
   extend self
 
+  TYPE_NAMES = { '1' => PassengerTrain, '2' => CargoTrain }
+
   def run
     puts 'Управление железной дорогой'
     puts 'Интерфейс командной строки'
@@ -26,23 +28,23 @@ module CLI
   private
 
   def create_train
+#     puts <<-MENU
+#
+# Введите тип поезда:
+# [1] - пассажирский
+# [2] - грузовой
+# MENU
     puts "\nВведите тип поезда:\n" +
            "[1] - пассажирский\n" +
            "[2] - грузовой"
     type = gets.chomp
-    unless ('1'..'2').include?(type)
+    unless TYPE_NAMES.keys.include?(type)
       raise ArgumentError, "Выбран недопустимый тип поезда!"
     end
 
     puts "\nВведите номер поезда:"
     number = gets.chomp
-
-    train = case type
-            when '1'
-              PassengerTrain.new(number)
-            when '2'
-              CargoTrain.new(number)
-            end
+    train = TYPE_NAMES[type].new(number)
     puts "Создан поезд №#{train}"
 
   rescue => e

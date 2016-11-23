@@ -59,7 +59,5 @@ class Station
 
   def validate!
     raise 'Station must have a name' if name !~ NAME_FORMAT
-    true
   end
-
 end

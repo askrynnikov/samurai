@@ -93,7 +93,5 @@ class Route
     unless stations.all? { |item| item.is_a?(Station) }
       raise "Route shall contain only stations"
     end
-    true
   end
-
 end

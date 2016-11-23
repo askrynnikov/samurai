@@ -2,12 +2,14 @@ require_relative 'route'
 require_relative 'station'
 require_relative 'instance_counter'
 require_relative 'manufacturer'
+require_relative 'validation'
 require_relative 'carriage/passenger_carriage'
 require_relative 'carriage/cargo_carriage'
 
 class Train
   include InstanceCounter
   include Manufacturer
+  include Validation
 
   class NumberError < StandardError
     def initialize(msg='Train number has invalid format')
@@ -15,7 +17,7 @@ class Train
     end
   end
 
-  TRAIN_NUMBER_FORMAT = /\A[[:alnum:]]{3}-*[[:alnum:]]{2}\z/
+  NUMBER_FORMAT = /\A[[:alnum:]]{3}-*[[:alnum:]]{2}\z/
   USIAL_AMOUNT_CARRIADES = 12
 
   @@trains = []
@@ -121,11 +123,19 @@ class Train
   end
 
   def validate!
-    raise NumberError if number !~ TRAIN_NUMBER_FORMAT
+    validate_format
+    validate_items
+  end
+
+  def validate_format
+    raise NumberError if number !~ NUMBER_FORMAT
+  end
+
+  def validate_items
     unless carriages.size==0 || carriages.all? { |item| item.is_a?(Carriage) }
       raise 'Train shall contain only carriages'
     end
-    true
   end
+
 
 end
