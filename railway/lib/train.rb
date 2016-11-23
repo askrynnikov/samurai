@@ -136,6 +136,4 @@ class Train
       raise 'Train shall contain only carriages'
     end
   end
-
-
 end
