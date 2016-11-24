@@ -1,7 +1,7 @@
 require_relative 'lib/station'
 require_relative 'lib/route'
-require_relative 'lib/train/passenger_train'
-require_relative 'lib/train/cargo_train'
+require_relative 'lib/train/passenger'
+require_relative 'lib/train/cargo'
 require_relative 'lib/train'
 require_relative 'lib/cli'
 
@@ -32,17 +32,17 @@ moscow_samara = Route.new(moscow, samara)
 moscow_samara.add_station(nizhny)
 moscow_samara.add_station(kazan)
 
-cp1 = PassengerCarriage.new(52)
-cp2 = PassengerCarriage.new(52)
-m_p_001_ps = PassengerTrain.new('001-ps')
+cp1 = Carriage::Passenger.new(52)
+cp2 = Carriage::Passenger.new(52)
+m_p_001_ps = Train::Passenger.new('001-ps')
   .load_route(moscow_piter)
   .attach_carriages(cp1, cp2)
   .each {|carriage| rand(carriage.number_seats).times { carriage.take_seat }}
   .go_next.go_next
 
-cc1 = CargoCarriage.new(42000)
-cc2 = CargoCarriage.new(42000)
-m_s_050_cr = CargoTrain.new('001-cr')
+cc1 = Carriage::Cargo.new(42000)
+cc2 = Carriage::Cargo.new(42000)
+m_s_050_cr = Train::Cargo.new('001-cr')
   .load_route(moscow_samara)
   .attach_carriages(cc1, cc2)
   .each { |carriage| carriage.take_cargo(rand(carriage.volume_cargo)) }

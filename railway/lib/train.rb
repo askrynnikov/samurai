@@ -3,8 +3,8 @@ require_relative 'station'
 require_relative 'instance_counter'
 require_relative 'manufacturer'
 require_relative 'validation'
-require_relative 'carriage/passenger_carriage'
-require_relative 'carriage/cargo_carriage'
+require_relative 'carriage/passenger'
+require_relative 'carriage/cargo'
 
 class Train
   include InstanceCounter

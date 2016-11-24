@@ -1,7 +1,7 @@
 module CLI
   extend self
 
-  TYPE_NAMES = { '1' => PassengerTrain, '2' => CargoTrain }
+  TYPE_NAMES = { '1' => Train::Passenger, '2' => Train::Cargo }
 
   def run
     puts 'Управление железной дорогой'
