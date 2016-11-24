@@ -1,10 +1,8 @@
 require_relative '../train'
 
 class PassengerTrain < Train
-  USIAL_AMOUNT_CARRIADES = 12
-
-  def initialize(number, amount_carriages = USIAL_AMOUNT_CARRIADES)
-    super(number, :passenger, amount_carriages)
+  def initialize(number)
+    super(number, :passenger)
   end
 
   def attach_carriages(*units)
@@ -17,7 +15,7 @@ class PassengerTrain < Train
   end
 
   def attach_carriage(carriage)
-    self.carriages << carriage if speed == 0 && carriage.instance_of?(PassengerCarriage)
+    super if carriage.instance_of?(PassengerCarriage)
     self
   end
 end

@@ -17,4 +17,11 @@ class PassengerCarriage < Carriage
   def empty_number_seats
     number_seats - occupied_number_seats
   end
+
+  def print
+    puts "#{number} " +
+           "#{type} " +
+           "free:#{empty_number_seats} " +
+           "busy:#{occupied_number_seats}"
+  end
 end

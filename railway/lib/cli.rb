@@ -39,7 +39,7 @@ module CLI
            "[2] - грузовой"
     type = gets.chomp
     unless TYPE_NAMES.keys.include?(type)
-      raise ArgumentError, "Выбран недопустимый тип поезда!"
+      raise ArgumentError, 'Выбран недопустимый тип поезда!'
     end
 
     puts "\nВведите номер поезда:"

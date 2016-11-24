@@ -17,4 +17,11 @@ class CargoCarriage < Carriage
   def free_volume_cargo
     volume_cargo - busy_volume_cargo
   end
+
+  def print
+    puts "#{number} " +
+           "#{type} " +
+           "free:#{free_volume_cargo} " +
+           "busy:#{busy_volume_cargo}"
+  end
 end
