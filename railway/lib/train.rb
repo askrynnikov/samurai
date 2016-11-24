@@ -43,6 +43,10 @@ class Train
     register_instance
   end
 
+  def each(&block)
+    carriages.each(&block)
+  end
+
   def to_s
     number
   end

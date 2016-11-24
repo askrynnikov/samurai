@@ -28,6 +28,10 @@ class Station
     register_instance
   end
 
+  def each(&block)
+    trains.each(&block)
+  end
+
   def take_train(train)
     @trains << train unless self.has_train?(train)
     self
