@@ -42,7 +42,7 @@ class Train
   end
 
   def print_carriages
-    each(&:print)
+    each { |carriage| puts carriage }
   end
 
   def print
@@ -50,7 +50,6 @@ class Train
     puts 'Сarriages:'
     print_carriages
   end
-
 
   def each(&block)
     carriages.each(&block)
@@ -77,7 +76,9 @@ class Train
   def attach_carriage(carriage)
     if speed == 0
       @carriages << carriage
-      carriage.number = carriages.map(&:number).map(&:to_i).max + 1
+      carriage.number = carriages.map do |carriage|
+        carriage.number.to_i
+      end.max + 1
     end
     self
   end

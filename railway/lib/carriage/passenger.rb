@@ -2,28 +2,25 @@ require_relative '../carriage'
 
 class Carriage
   class Passenger < Carriage
-    attr_reader :number_seats, :occupied_number_seats
+    attr_reader :seats, :busy_seats
 
-    def initialize(number_seats = 0)
+    def initialize(seats = 0)
       super(:passenger)
-      @number_seats = number_seats
-      @occupied_number_seats = 0
+      @seats = seats
+      @busy_seats = 0
     end
 
     def take_seat
-      @occupied_number_seats += 1 if occupied_number_seats < number_seats
+      @busy_seats += 1 if @busy_seats < @seats
       self
     end
 
-    def empty_number_seats
-      number_seats - occupied_number_seats
+    def free_seats
+      @seats - @busy_seats
     end
 
-    def print
-      puts "#{number} " +
-             "#{type} " +
-             "free:#{empty_number_seats} " +
-             "busy:#{occupied_number_seats}"
+    def to_s
+      "#{number} #{type} free:#{free_seats} busy:#{busy_seats}"
     end
   end
 end

@@ -39,7 +39,7 @@ class Station
   end
 
   def each(&block)
-    trains.each(&block)
+    @trains.each(&block)
     self
   end
 
@@ -67,7 +67,7 @@ class Station
   end
 
   def has_train?(train)
-    trains.include?(train)
+    @trains.include?(train)
   end
 
   private
