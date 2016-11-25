@@ -42,7 +42,7 @@ class Route
     stations[previous_waypoint(waypoint)]
   end
 
-  def add_intermediate_station(station, next_station = nil)
+  def add_station(station, next_station = nil)
     if next_station
       @stations.insert(@stations.index(next_station), station)
     else

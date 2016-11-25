@@ -3,8 +3,8 @@ require_relative 'station'
 require_relative 'instance_counter'
 require_relative 'manufacturer'
 require_relative 'validation'
-require_relative 'carriage/passenger_carriage'
-require_relative 'carriage/cargo_carriage'
+require_relative 'carriage/passenger'
+require_relative 'carriage/cargo'
 
 class Train
   include InstanceCounter
@@ -18,7 +18,6 @@ class Train
   end
 
   NUMBER_FORMAT = /\A[[:alnum:]]{3}-*[[:alnum:]]{2}\z/
-  USIAL_AMOUNT_CARRIADES = 12
 
   @@trains = []
 
@@ -29,7 +28,7 @@ class Train
     @@trains.find { |train| train.number == number }
   end
 
-  def initialize(number, type, amount_carriages = USIAL_AMOUNT_CARRIADES)
+  def initialize(number, type)
     @number = number
     @type = type
     @speed = 0
@@ -37,10 +36,24 @@ class Train
     @route = nil
     @waypoint = nil
     @previous_station, @at_station, @next_station = nil
-    attach_carriages(amount_carriages)
     validate!
     @@trains << self
     register_instance
+  end
+
+  def print_carriages
+    each { |carriage| puts carriage }
+  end
+
+  def print
+    puts "\n№#{number} #{type} carriages:#{amount_carriages}"
+    puts 'Сarriages:'
+    print_carriages
+  end
+
+  def each(&block)
+    carriages.each(&block)
+    self
   end
 
   def to_s
@@ -61,7 +74,12 @@ class Train
   end
 
   def attach_carriage(carriage)
-    @carriages << carriage if speed == 0
+    if speed == 0
+      @carriages << carriage
+      carriage.number = carriages.map do |carriage|
+        carriage.number.to_i
+      end.max + 1
+    end
     self
   end
 
@@ -98,10 +116,10 @@ class Train
     self
   end
 
-  def go_to_next_station
-    @at_station.departed_train(self)
+  def go_next
     @previous_station = @at_station
     @at_station = @next_station
+    @previous_station.departed_train(self)
     @waypoint = @route.next_waypoint(@waypoint)
     @next_station = @route.next_station(@waypoint)
     @at_station.take_train(self)
@@ -136,6 +154,4 @@ class Train
       raise 'Train shall contain only carriages'
     end
   end
-
-
 end

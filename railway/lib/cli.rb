@@ -1,7 +1,7 @@
 module CLI
   extend self
 
-  TYPE_NAMES = { '1' => PassengerTrain, '2' => CargoTrain }
+  TYPE_NAMES = { '1' => Train::Passenger, '2' => Train::Cargo }
 
   def run
     puts 'Управление железной дорогой'
@@ -39,7 +39,7 @@ module CLI
            "[2] - грузовой"
     type = gets.chomp
     unless TYPE_NAMES.keys.include?(type)
-      raise ArgumentError, "Выбран недопустимый тип поезда!"
+      raise ArgumentError, 'Выбран недопустимый тип поезда!'
     end
 
     puts "\nВведите номер поезда:"

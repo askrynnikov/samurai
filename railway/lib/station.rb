@@ -28,13 +28,28 @@ class Station
     register_instance
   end
 
+  def print
+    puts "\n#{name}"
+    puts 'Trains:'
+    print_trains
+  end
+
+  def print_trains
+    each(&:print)
+  end
+
+  def each(&block)
+    @trains.each(&block)
+    self
+  end
+
   def take_train(train)
     @trains << train unless self.has_train?(train)
     self
   end
 
   def send_train(train)
-    train.go_to_next_station if self.has_train?(train)
+    train.go_next if self.has_train?(train)
     self
   end
 
@@ -52,7 +67,7 @@ class Station
   end
 
   def has_train?(train)
-    trains.include?(train)
+    @trains.include?(train)
   end
 
   private
