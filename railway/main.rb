@@ -52,4 +52,4 @@ m_s_050_cr = Train::Cargo.new('001-cr')
 # m_s_050_cr.print_carriages
 
 Station.all.each(&:print)
-# CLI.run
+CLI.run
