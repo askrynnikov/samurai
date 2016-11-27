@@ -2,23 +2,28 @@ require_relative 'instance_counter'
 require_relative 'station'
 require_relative 'validation'
 
+# routes of trains
 class Route
   include InstanceCounter
   include Validation
 
-  @@routrs = []
+  # errors train
+  class NoStation < StandardError
+    def initialize(msg = 'Route shall contain only stations')
+      super
+    end
+  end
 
   attr_reader :stations
 
-  def self.routrs
-    @@routrs
+  class << self
+    alias routs all
   end
 
-  def initialize(start_station, end_station)
-    @stations = [start_station, end_station]
-    @@routrs << self
-    @circular = start_station == end_station
-    validate!
+  def initialize(first, last)
+    raise NoStation unless first.is_a?(Station) && last.is_a?(Station)
+    @stations = [first, last]
+    @circular = first == last
     register_instance
   end
 
@@ -27,7 +32,7 @@ class Route
   end
 
   def next_waypoint(waypoint)
-    (waypoint + 1) if waypoint < last_waypoint
+    waypoint + (waypoint < last_waypoint ? 1 : 0)
   end
 
   def next_station(waypoint)
@@ -35,7 +40,7 @@ class Route
   end
 
   def previous_waypoint(waypoint)
-    (waypoint - 1) if waypoint > last_waypoint
+    waypoint - (waypoint > last_waypoint ? 1 : 0)
   end
 
   def previous_station(waypoint)
@@ -43,6 +48,7 @@ class Route
   end
 
   def add_station(station, next_station = nil)
+    raise NoStation unless station.is_a?(Station)
     if next_station
       @stations.insert(@stations.index(next_station), station)
     else
@@ -52,7 +58,7 @@ class Route
   end
 
   def delete_intermediate_station(station)
-    @stations.delete(station) if self.has_station?(station)
+    @stations.delete(station) if station?(station)
   end
 
   def puts_stations
@@ -67,15 +73,15 @@ class Route
     stations.size - 1
   end
 
-  def start_station
+  def first_station
     stations[first_waypoint]
   end
 
-  def end_station
+  def last_station
     stations[last_waypoint]
   end
 
-  def has_station?(station)
+  def station?(station)
     @stations.include?(station)
   end
 
@@ -85,13 +91,5 @@ class Route
 
   def to_s
     @stations
-  end
-
-  private
-
-  def validate!
-    unless stations.all? { |item| item.is_a?(Station) }
-      raise "Route shall contain only stations"
-    end
   end
 end

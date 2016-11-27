@@ -3,56 +3,53 @@ require_relative 'station'
 require_relative 'instance_counter'
 require_relative 'manufacturer'
 require_relative 'validation'
-require_relative 'carriage/passenger'
-require_relative 'carriage/cargo'
+require_relative 'car/passenger'
+require_relative 'car/cargo'
 
+# railway train
 class Train
   include InstanceCounter
   include Manufacturer
   include Validation
 
+  # errors train
   class NumberError < StandardError
-    def initialize(msg='Train number has invalid format')
+    def initialize(msg = 'Train number has invalid format')
       super
     end
   end
 
   NUMBER_FORMAT = /\A[[:alnum:]]{3}-*[[:alnum:]]{2}\z/
 
-  @@trains = []
-
-  attr_reader :number, :type, :amount_carriages, :speed, :carriages,
+  attr_reader :number, :type, :amount_cars, :speed, :cars,
               :previous_station, :at_station, :next_station, :waypoint
 
+  class << self
+    alias trains all
+  end
+
   def self.find(number)
-    @@trains.find { |train| train.number == number }
+    trains.find { |train| train.number == number }
   end
 
   def initialize(number, type)
     @number = number
     @type = type
     @speed = 0
-    @carriages = []
-    @route = nil
-    @waypoint = nil
-    @previous_station, @at_station, @next_station = nil
+    @cars = []
+    @route, @waypoint, @previous_station, @at_station, @next_station = nil
     validate!
-    @@trains << self
     register_instance
   end
 
-  def print_carriages
-    each { |carriage| puts carriage }
-  end
-
   def print
-    puts "\n№#{number} #{type} carriages:#{amount_carriages}"
+    puts "\n№#{number} #{type} cars:#{amount_cars}"
     puts 'Сarriages:'
-    print_carriages
+    each { |car| puts car }
   end
 
   def each(&block)
-    carriages.each(&block)
+    cars.each(&block)
     self
   end
 
@@ -60,36 +57,30 @@ class Train
     number
   end
 
-  def self.trains
-    @@trains
-  end
-
-  def attach_carriages(*units)
+  def attach_cars(*units)
     if units.first.is_a?(Integer)
-      units.first.times { attach_carriage(Carriage.new) }
+      units.first.times { attach_car(Car.new) }
     else
-      units.each { |unit| attach_carriage(unit) }
+      units.each { |unit| attach_car(unit) }
     end
     self
   end
 
-  def attach_carriage(carriage)
-    if speed == 0
-      @carriages << carriage
-      carriage.number = carriages.map do |carriage|
-        carriage.number.to_i
-      end.max + 1
+  def attach_car(car)
+    if speed.zero? && car.is_a?(Car)
+      @cars << car
+      car.number = cars.map { |car_in_train| car_in_train.number || 0 }.max + 1
     end
     self
   end
 
-  def detach_carriage(carriage)
-    @carriages.delete(carriage) if speed == 0
+  def detach_car(car)
+    @cars.delete(car) if speed.zero?
     self
   end
 
-  def amount_carriages
-    @carriages.size
+  def amount_cars
+    @cars.size
   end
 
   def accelerates(up_speed = 10)
@@ -97,20 +88,20 @@ class Train
   end
 
   def breaks(down_speed = 0)
-    return self.speed = 0 if down_speed == 0
+    return self.speed = 0 if down_speed.zero?
     self.speed -= down_speed
     self.speed = [speed, 0].max
   end
 
   def stop
-    self.breaks
+    breaks
   end
 
   def load_route(route)
     @route = route
     @waypoint = route.first_waypoint
-    @previous_station = route.start_station
-    @at_station = route.start_station
+    @previous_station = route.first_station
+    @at_station = route.first_station
     @at_station.take_train(self)
     @next_station = route.next_station(waypoint)
     self
@@ -128,30 +119,13 @@ class Train
 
   protected
 
-  # вынесено в protected поскольку скорость изменяется не произвольно
-  # а в прецессе разгона и торможения
-  def speed=(speed)
-    @speed = speed
-  end
-
-  # вынесено в protected поскольку колличество вагонов изменяется не произвольно
-  # а в процессе сцепки-разцепки поезда и вагона
-  def amount_carriages=(amount_carriages)
-    @amount_carriages = amount_carriages
-  end
+  # protected so as the rate of change in the process
+  # of acceleration and deceleration
+  # protected as the number of cars changed during
+  # the coupling-uncoupling train and car
+  attr_writer :amount_cars, :speed
 
   def validate!
-    validate_format
-    validate_items
-  end
-
-  def validate_format
     raise NumberError if number !~ NUMBER_FORMAT
-  end
-
-  def validate_items
-    unless carriages.size==0 || carriages.all? { |item| item.is_a?(Carriage) }
-      raise 'Train shall contain only carriages'
-    end
   end
 end

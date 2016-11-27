@@ -2,28 +2,22 @@ require_relative 'instance_counter'
 require_relative 'train'
 require_relative 'validation'
 
+# railroad station
 class Station
   include InstanceCounter
   include Validation
 
   NAME_FORMAT = /[[:alpha:]]+/
 
-  @@stations = []
-
   attr_reader :name, :trains
 
-  def self.all
-    @@stations
-  end
-
-  def self.stations
-    @@stations
+  class << self
+    alias stations all
   end
 
   def initialize(name)
     @name = name
     @trains = []
-    @@stations << self
     validate!
     register_instance
   end
@@ -44,12 +38,12 @@ class Station
   end
 
   def take_train(train)
-    @trains << train unless self.has_train?(train)
+    @trains << train unless train?(train)
     self
   end
 
   def send_train(train)
-    train.go_next if self.has_train?(train)
+    train.go_next if train?(train)
     self
   end
 
@@ -63,11 +57,15 @@ class Station
   end
 
   def amount_trains_by_type
-    @trains.reduce(Hash.new(0)) { |sum, train| sum[train.type] += 1; sum }
+    @trains.each_with_object(Hash.new(0)) { |sum, train| sum[train.type] += 1 }
   end
 
-  def has_train?(train)
+  def train?(train)
     @trains.include?(train)
+  end
+
+  def to_s
+    name
   end
 
   private

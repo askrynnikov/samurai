@@ -1,26 +1,40 @@
+# Command-line interface
 module CLI
-  extend self
+  TYPE_NAMES = { '1' => Train::Passenger, '2' => Train::Cargo }.freeze
 
-  TYPE_NAMES = { '1' => Train::Passenger, '2' => Train::Cargo }
+  GREETING = <<-GREETING
+Railway Management
+Command-line interface
+  GREETING
+             .freeze
+
+  MENU_COMMAND = <<-MENU
+
+Enter the command:
+[1] - Create train
+[2] - Puts trains
+[0] - Exit
+  MENU
+                 .freeze
+
+  MENU_TYPE_TRAIN = <<-MENU
+
+Enter the type of train:
+[1] - passenger
+[2] - cargo
+  MENU
+                    .freeze
 
   def run
-    puts 'Управление железной дорогой'
-    puts 'Интерфейс командной строки'
+    puts GREETING
+    # act = {'0' => :break, '1' =>:create_train, '2' => :show_trains}
     loop do
-      puts "\nВведите команду:\n" +
-             "[1] - Create train\n" +
-             "[2] - Puts trains\n" +
-             "[0] - Exit"
-      action = gets.chomp
-      case action
-      when '1'
-        create_train
-      when '2'
-        show_trains
-      when '0'
-        break
-      else
-        puts 'Недопустимая команда'
+      puts MENU_COMMAND
+      case gets.chomp
+      when '1' then create_train
+      when '2' then show_trains
+      when '0' then break
+      else puts 'Invalid command'
       end
     end
   end
@@ -28,24 +42,14 @@ module CLI
   private
 
   def create_train
-#     puts <<-MENU
-#
-# Введите тип поезда:
-# [1] - пассажирский
-# [2] - грузовой
-# MENU
-    puts "\nВведите тип поезда:\n" +
-           "[1] - пассажирский\n" +
-           "[2] - грузовой"
+    puts MENU_TYPE_TRAIN
     type = gets.chomp
-    unless TYPE_NAMES.keys.include?(type)
-      raise ArgumentError, 'Выбран недопустимый тип поезда!'
-    end
+    raise ArgumentError, 'Invalid type of train!' unless TYPE_NAMES[type]
 
-    puts "\nВведите номер поезда:"
+    puts "\nEnter the train number:"
     number = gets.chomp
     train = TYPE_NAMES[type].new(number)
-    puts "Создан поезд №#{train}"
+    puts "Created train №#{train}"
 
   rescue => e
     puts e.message
@@ -53,7 +57,9 @@ module CLI
   end
 
   def show_trains
-    puts "\nОбщий список поездов:"
+    puts "\nThe total list of trains:"
     puts Train.trains
   end
+
+  module_function :run, :create_train, :show_trains
 end
