@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'lib/station'
 require_relative 'lib/route'
 require_relative 'lib/train/passenger'

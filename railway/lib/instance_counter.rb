@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Instance counter for all objects
 module InstanceCounter
   def self.included(base)

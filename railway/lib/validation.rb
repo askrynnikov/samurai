@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # check the contents of the object
 module Validation
   def valid?

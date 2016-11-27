@@ -29,7 +29,7 @@ AllCops:
     - '**/*Fastfile'
   Exclude:
     - 'vendor/**/*'
-    - 'railway/main.rb'
+  #  - 'railway/main.rb'
   # Default formatter will be used if no -f/--format option is given.
   DefaultFormatter: progress
   # Cop names are not displayed in offense messages by default. Change behavior
@@ -83,7 +83,7 @@ AllCops:
   # Else if .ruby-version exists and it contains an MRI version it is used.
   # Otherwise we fallback to the oldest officially supported Ruby version (2.1).
   # было TargetRubyVersion: ~
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.3
 
 # Indent private/protected/public as deep as method definitions
 Style/AccessModifierIndentation:
@@ -448,12 +448,6 @@ Style/EmptyLinesAroundModuleBody:
     - empty_lines_except_namespace
     - empty_lines_special
     - no_empty_lines
-
-Style/EmptyMethod:
-  EnforcedStyle: compact
-  SupportedStyles:
-    - compact
-    - expanded
 
 # Checks whether the source file has a utf-8 encoding comment or not
 # AutoCorrectEncodingComment must match the regex
@@ -1146,10 +1140,6 @@ Metrics/LineLength:
   # The IgnoreCopDirectives option causes the LineLength rule to ignore cop
   # directives like '# rubocop: enable ...' when calculating a line's length.
   IgnoreCopDirectives: false
-  # The IgnoredPatterns option is a list of !ruby/regexp and/or string
-  # elements. Strings will be converted to Regexp objects. A line that matches
-  # any regular expression listed in this option will be ignored by LineLength.
-  IgnoredPatterns: []
 
 Metrics/MethodLength:
   CountComments: false  # count full line comments?
@@ -1263,10 +1253,6 @@ Rails/Date:
 Rails/DynamicFindBy:
   Whitelist:
     - find_by_sql
-
-Rails/EnumUniqueness:
-  Include:
-    - app/models/**/*.rb
 
 Rails/Exit:
   Include:

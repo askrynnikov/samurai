@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # manufacturer has
 module Manufacturer
   attr_reader :manufacturer

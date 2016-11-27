@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Command-line interface
 module CLI
   TYPE_NAMES = { '1' => Train::Passenger, '2' => Train::Cargo }.freeze
@@ -6,7 +7,6 @@ module CLI
 Railway Management
 Command-line interface
   GREETING
-             .freeze
 
   MENU_COMMAND = <<-MENU
 
@@ -15,7 +15,6 @@ Enter the command:
 [2] - Puts trains
 [0] - Exit
   MENU
-                 .freeze
 
   MENU_TYPE_TRAIN = <<-MENU
 
@@ -23,7 +22,6 @@ Enter the type of train:
 [1] - passenger
 [2] - cargo
   MENU
-                    .freeze
 
   def run
     puts GREETING
