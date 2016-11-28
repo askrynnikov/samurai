@@ -1,22 +1,24 @@
 require_relative '../train'
 
 class Train
+  # Cargo Train
   class Cargo < Train
     def initialize(number)
       super(number, :cargo)
+      Train.send :add_instance, self
     end
 
-    def attach_carriages(*units)
+    def attach_cars(*units)
       if units.first.is_a?(Integer)
-        units.first.times { attach_carriage(Carriage::Cargo.new) }
+        units.first.times { attach_car(Car::Cargo.new) }
       else
-        units.each { |unit| attach_carriage(unit) }
+        units.each { |unit| attach_car(unit) }
       end
       self
     end
 
-    def attach_carriage(carriage)
-      super if carriage.instance_of?(Carriage::Cargo)
+    def attach_car(car)
+      super if car.instance_of?(Car::Cargo)
       self
     end
   end

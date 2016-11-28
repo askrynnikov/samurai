@@ -1,3 +1,4 @@
+# manufacturer has
 module Manufacturer
   attr_reader :manufacturer
 

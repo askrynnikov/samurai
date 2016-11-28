@@ -1,7 +1,8 @@
-require_relative '../carriage'
+require_relative '../car'
 
-class Carriage
-  class Passenger < Carriage
+class Car
+  # Passenger car
+  class Passenger < Car
     attr_reader :seats, :busy_seats
 
     def initialize(seats = 0)

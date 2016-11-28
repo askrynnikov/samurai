@@ -1,7 +1,8 @@
 require_relative 'instance_counter'
 require_relative 'manufacturer'
 
-class Carriage
+# Railway carriage
+class Car
   include InstanceCounter
   include Manufacturer
 
