@@ -9,7 +9,7 @@ class Route
   include Validation
 
   # errors train
-  class NoStation < StandardError
+  class NoStation < TypeError
     def initialize(msg = 'Route shall contain only stations')
       super
     end

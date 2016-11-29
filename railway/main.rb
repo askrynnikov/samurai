@@ -53,8 +53,17 @@ m_s_050_cr = Train::Cargo
 m_p_001_ps.go_next
 m_s_050_cr.go_next
 
-puts Train.trains
-puts Station.stations
-Train.trains.each(&:print)
-Station.stations.each(&:print)
-CLI.run
+# puts Train.trains
+# puts Station.stations
+# Train.trains.each(&:print)
+# Station.stations.each(&:print)
+# CLI.run
+
+moscow.test1 = 1
+# moscow.test1 = 2
+moscow.test1 = 3
+puts moscow.test1
+p moscow.test1_history
+
+moscow.test2 = 'aaaa'
+moscow.test2 = '2'

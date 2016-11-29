@@ -24,6 +24,8 @@ class Train
 
   attr_reader :number, :type, :amount_cars, :speed, :cars,
               :previous_station, :at_station, :next_station, :waypoint
+  validate :number, :format, NUMBER_FORMAT
+  @test_var_class1 = 'aaa'
 
   class << self
     alias trains all
@@ -125,8 +127,4 @@ class Train
   # protected as the number of cars changed during
   # the coupling-uncoupling train and car
   attr_writer :amount_cars, :speed
-
-  def validate!
-    raise NumberError if number !~ NUMBER_FORMAT
-  end
 end
