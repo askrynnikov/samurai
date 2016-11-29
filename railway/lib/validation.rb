@@ -25,10 +25,12 @@ module Validation
 
     def validate!
       context = self.class
-      while (checks = context.class_eval('@checks'))
-        checks.each do |check|
-          variable = instance_variable_get("@#{check[:attribute]}")
-          checking(variable, check[:type], check[:option])
+      while context != Object
+        if checks = context.class_eval('@checks')
+          checks.each do |check|
+            variable = instance_variable_get("@#{check[:attribute]}")
+            checking(variable, check[:type], check[:option])
+          end
         end
         context = context.superclass
       end
@@ -43,21 +45,21 @@ module Validation
       when :type
         type_checking(attr, option)
       else
-        raise TypeError 'Incorrect type of check'
+        raise TypeError.new('Incorrect type of check')
       end
     end
 
     def presence_checking(attr)
-      raise TypeError 'attr is nil' if attr.nil?
-      raise TypeError 'attr is empty string' if attr == ''
+      raise TypeError.new('attr is nil') if attr.nil?
+      raise TypeError.new('attr is empty string') if attr == ''
     end
 
     def format_checking(attr, format)
-      raise TypeError 'attr does not match the format' unless attr =~ format
+      raise TypeError.new('attr does not match the format') unless attr =~ format
     end
 
     def type_checking(attr, type)
-      raise TypeError 'attr has the wrong type' unless attr.is_a?(type)
+      raise TypeError.new('attr has the wrong type') unless attr.is_a?(type)
     end
   end
 end
