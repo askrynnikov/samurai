@@ -19,7 +19,7 @@ module Validation
     def valid?
       validate!
       true
-    rescue TypeError
+    rescue StandardError
       false
     end
 
@@ -29,23 +29,11 @@ module Validation
         if checks = context.class_eval('@checks')
           checks.each do |check|
             variable = instance_variable_get("@#{check[:attribute]}")
-            checking(variable, check[:type], check[:option])
+            method_checking = "#{check[:type]}_checking"
+            send method_checking, variable, check[:option] if check[:option]
           end
         end
         context = context.superclass
-      end
-    end
-
-    def checking(attr, type, option)
-      case type
-      when :presence
-        presence_checking(attr)
-      when :format
-        format_checking(attr, option)
-      when :type
-        type_checking(attr, option)
-      else
-        raise TypeError.new('Incorrect type of check')
       end
     end
 

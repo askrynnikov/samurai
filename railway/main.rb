@@ -62,7 +62,8 @@ m_s_050_cr.go_next
 moscow.test1 = 1
 # moscow.test1 = 2
 moscow.test1 = 3
-puts moscow.test1
+p moscow.test1
+puts
 p moscow.test1_history
 
 moscow.test2 = 'aaaa'

@@ -9,7 +9,7 @@ class Route
   include Validation
 
   # errors train
-  class NoStation < TypeError
+  class NotStation < TypeError
     def initialize(msg = 'Route shall contain only stations')
       super
     end
@@ -22,7 +22,7 @@ class Route
   end
 
   def initialize(first, last)
-    raise NoStation unless first.is_a?(Station) && last.is_a?(Station)
+    raise NotStation unless first.is_a?(Station) && last.is_a?(Station)
     @stations = [first, last]
     @circular = first == last
     register_instance
@@ -49,7 +49,7 @@ class Route
   end
 
   def add_station(station, next_station = nil)
-    raise NoStation unless station.is_a?(Station)
+    raise NotStation unless station.is_a?(Station)
     if next_station
       @stations.insert(@stations.index(next_station), station)
     else

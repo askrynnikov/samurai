@@ -25,7 +25,7 @@ class Train
   attr_reader :number, :type, :amount_cars, :speed, :cars,
               :previous_station, :at_station, :next_station, :waypoint
   validate :number, :format, NUMBER_FORMAT
-  @test_var_class1 = 'aaa'
+  validate :type, :presence
 
   class << self
     alias trains all
