@@ -2,17 +2,24 @@
 require_relative 'instance_counter'
 require_relative 'train'
 require_relative 'validation'
+require_relative 'accessors'
 
 # railroad station
 class Station
   include InstanceCounter
   include Validation
+  extend Accessors
 
   NAME_FORMAT = /[[:alpha:]]+/
 
   attr_reader :name, :trains
+  attr_accessor_with_history :test1
+  strong_attr_accessor :test2, String
+  validate :name, :format, NAME_FORMAT
+  @test_var_class1 = 'aaa'
 
   class << self
+    @test_var_class2 = 'bbb'
     alias stations all
   end
 
@@ -67,11 +74,5 @@ class Station
 
   def to_s
     name
-  end
-
-  private
-
-  def validate!
-    raise 'Station must have a name' if name !~ NAME_FORMAT
   end
 end
